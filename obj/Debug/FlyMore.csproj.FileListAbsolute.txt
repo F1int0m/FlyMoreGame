@@ -1,0 +1,12 @@
+C:\Users\Nikita\source\repos\FlyMore\bin\Debug\FlyMore.exe.config
+C:\Users\Nikita\source\repos\FlyMore\bin\Debug\FlyMore.exe
+C:\Users\Nikita\source\repos\FlyMore\bin\Debug\FlyMore.pdb
+C:\Users\Nikita\source\repos\FlyMore\obj\Debug\FlyMore.csprojAssemblyReference.cache
+C:\Users\Nikita\source\repos\FlyMore\obj\Debug\FlyMore.Properties.Resources.resources
+C:\Users\Nikita\source\repos\FlyMore\obj\Debug\FlyMore.csproj.GenerateResource.cache
+C:\Users\Nikita\source\repos\FlyMore\obj\Debug\FlyMore.exe
+C:\Users\Nikita\source\repos\FlyMore\obj\Debug\FlyMore.pdb
+C:\Users\Nikita\source\repos\FlyMore\bin\Debug\nunit.framework.dll
+C:\Users\Nikita\source\repos\FlyMore\bin\Debug\nunit.framework.pdb
+C:\Users\Nikita\source\repos\FlyMore\bin\Debug\nunit.framework.xml
+C:\Users\Nikita\source\repos\FlyMore\obj\Debug\FlyMore.csproj.CopyComplete
