@@ -11,9 +11,11 @@ namespace FlyMore
         [STAThread]
         static void Main()
         {
+            var configWorld = new World();
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GameForm());
+            Application.SetCompatibleTextRenderingDefault(false); 
+            Application.Run(new EnterForm(configWorld));
+            Application.Run(new GameForm(configWorld));
         }
 
         

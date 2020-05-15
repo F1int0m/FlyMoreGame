@@ -19,13 +19,12 @@ namespace FlyMore
 
         public bool IsWin { get; private set; } = false;
 
-
-
         public int Score { private set; get; } = 0;
 
         public World()
         {
             drone = new Drone();
+            Elements = new List<ITrack>();
         }
 
         public void Load(params ITrack[] traсks)
@@ -39,7 +38,33 @@ namespace FlyMore
             PreviousPoint = new Point((int)Math.Round(drone.Position.X), (int)Math.Round(drone.Position.Y) );
             drone.Throttle += dThrottle;
             drone = MoveDrone(drone, dAngle, ClienSize, dt);
+            MoveWorld(ClienSize);
             Check();
+        }
+
+       
+        private void MoveWorld(Size size)
+        {
+
+            var delta = size.Width / 4;
+            var move1 = (int)drone.Position.X - size.Width / 2;
+            var move = move1 > 0 ? 10 : -10;
+            if (Math.Abs(move1)>delta)
+            {
+                Elements = Elements.Select(x =>
+                {
+                    x.CheckZone = new Rectangle(x.CheckZone.X - move, x.CheckZone.Y, x.CheckZone.Width,
+                        x.CheckZone.Height);
+                    x.EnterZone = new Rectangle(x.EnterZone.X - move, x.EnterZone.Y, x.EnterZone.Width,
+                        x.EnterZone.Height);
+
+                    x.TrackPart = x.TrackPart.Select(s => new Rectangle(s.X - move, s.Y, s.Width, s.Height)).ToArray();
+                    return x;
+
+                }).ToList();
+
+                drone = new Drone(new Vector(drone.Position.X - move, drone.Position.Y), drone.Velocity, drone.Angle,drone.Throttle);
+            }
         }
 
         private void Check()
@@ -64,6 +89,7 @@ namespace FlyMore
             {
                 drone = new Drone(new Vector(PreviousPoint.X,PreviousPoint.Y), drone.Velocity*(-0.8),drone.Angle,drone.Throttle);
             }
+
 
         }
 

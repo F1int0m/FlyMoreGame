@@ -12,24 +12,15 @@ using System.Xml.Schema;
 
 namespace FlyMore
 {
-
-    //Вопросы
-    //Как поворачивать картинку без обрезания?
-    //Как сделать "прокуртку" мира, относительно дрона?(как в Марио)
     public partial class GameForm : Form
     {
         public readonly int dy = 10;
-        public GameForm()
+        public GameForm(World world)
         {
             BackColor = Color.White;
 
             Size = new Size(800,800);
             DoubleBuffered = true;
-            var world = new World();
-            var distance = 150;
-            world.Load(Enumerable.Range(1, 6).Select(x => Gate.GeneateGate(x * distance)).ToArray());
-
-
             var timer = new Timer();
 
             var dt = 10; //Подобрать
@@ -91,7 +82,7 @@ namespace FlyMore
 
 
 
-
+                
                 foreach (var element in world.Elements)
                 {
                     a.Graphics.DrawRectangle(Pens.Green,element.EnterZone);
