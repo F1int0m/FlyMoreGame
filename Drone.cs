@@ -27,7 +27,7 @@ namespace FlyMore
             Throttle = throttle;
             Angle = angle;
         }
-        public static readonly Image Image = Image.FromFile("../../images/Drone.png");
+        public static Image Image = Image.FromFile("../../images/Drone.png");
         public double Angle { get; set; }
         public Vector Position {  get; set; }
         public Vector Velocity { get; set; }

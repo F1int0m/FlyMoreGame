@@ -14,7 +14,7 @@ namespace FlyMore
 {
 
     //Вопросы
-    //Как поворачивать картинку без ообрезания?
+    //Как поворачивать картинку без обрезания?
     //Как сделать "прокуртку" мира, относительно дрона?(как в Марио)
     public partial class GameForm : Form
     {
@@ -130,7 +130,7 @@ namespace FlyMore
                 x.CheckZone = new Rectangle(chek.X, size.Height - dy - eHeight, chek.Width, chek.Height);
                 x.EnterZone = new Rectangle(enter.X, size.Height - dy - eHeight, enter.Width, enter.Height);
                 x.TrackPart = //x.TrackPart;
-                    x.TrackPart.Select(z => new Rectangle(z.X, size.Height - x.Height - dy , z.Width, z.Height))
+                    x.TrackPart.Select(z => new Rectangle(z.X, size.Height - eHeight - dy , z.Width, z.Height))
                     .ToArray();
 
                 return x;
@@ -140,31 +140,23 @@ namespace FlyMore
         public static Image RotateImage(Image img, double rotationAngle)
         {
             var size = (int)Math.Sqrt(img.Height*img.Height+img.Width*img.Width);
-            //create an empty Bitmap image
+            
             Bitmap bmp = new Bitmap(size,size);
-
-            //turn the Bitmap into a Graphics object
+          
             Graphics gfx = Graphics.FromImage(bmp);
-
-            //now we set the rotation point to the center of our image
+           
             gfx.TranslateTransform((float)bmp.Width / 2, (float)bmp.Height / 2);
 
-            //now rotate the image
             gfx.RotateTransform((float)rotationAngle);
 
             gfx.TranslateTransform(-(float)bmp.Width / 2, -(float)bmp.Height / 2);
 
-            //set the InterpolationMode to HighQualityBicubic so to ensure a high
-            //quality image once it is transformed to the specified size
             gfx.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
-            //now draw our new image onto the graphics object
             gfx.DrawImage(img, new Point(0, 0));
 
-            //dispose of our Graphics object
             gfx.Dispose();
 
-            //return the image
             return bmp;
         }
 

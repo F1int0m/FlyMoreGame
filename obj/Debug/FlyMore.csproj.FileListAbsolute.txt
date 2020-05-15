@@ -10,3 +10,15 @@ C:\Users\Nikita\source\repos\FlyMore\bin\Debug\nunit.framework.dll
 C:\Users\Nikita\source\repos\FlyMore\bin\Debug\nunit.framework.pdb
 C:\Users\Nikita\source\repos\FlyMore\bin\Debug\nunit.framework.xml
 C:\Users\Nikita\source\repos\FlyMore\obj\Debug\FlyMore.csproj.CopyComplete
+C:\Users\Nikita\source\repos\FlyMoreGame\bin\Debug\FlyMore.exe.config
+C:\Users\Nikita\source\repos\FlyMoreGame\bin\Debug\FlyMore.exe
+C:\Users\Nikita\source\repos\FlyMoreGame\bin\Debug\FlyMore.pdb
+C:\Users\Nikita\source\repos\FlyMoreGame\bin\Debug\nunit.framework.dll
+C:\Users\Nikita\source\repos\FlyMoreGame\bin\Debug\nunit.framework.pdb
+C:\Users\Nikita\source\repos\FlyMoreGame\bin\Debug\nunit.framework.xml
+C:\Users\Nikita\source\repos\FlyMoreGame\obj\Debug\FlyMore.csprojAssemblyReference.cache
+C:\Users\Nikita\source\repos\FlyMoreGame\obj\Debug\FlyMore.Properties.Resources.resources
+C:\Users\Nikita\source\repos\FlyMoreGame\obj\Debug\FlyMore.csproj.GenerateResource.cache
+C:\Users\Nikita\source\repos\FlyMoreGame\obj\Debug\FlyMore.csproj.CopyComplete
+C:\Users\Nikita\source\repos\FlyMoreGame\obj\Debug\FlyMore.exe
+C:\Users\Nikita\source\repos\FlyMoreGame\obj\Debug\FlyMore.pdb
