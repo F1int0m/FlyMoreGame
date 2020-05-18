@@ -43,7 +43,7 @@ namespace FlyMore
         private void MoveWorld(Size size)
         {
             var delta = size.Width / 4;
-            var move1 = (int)drone.Position.X - size.Width / 2;
+            var move1 = (int)drone.Position.X - size.Width / 2+200;
             var move = move1 > 0 ? 5 : -5;
             if (Math.Abs(move1) <= delta) return;
             ElementsList = ElementsList.Select(x =>

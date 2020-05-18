@@ -20,6 +20,7 @@ namespace FlyMore
         public GameForm(World inputWorld)
         {
             this.world = inputWorld;
+            BackgroundImage = Image.FromFile("../../images/GameBack.jpg");
             var throttleBar = new ProgressBar {Maximum = 100, Minimum = 0, Value = (int) world.drone.Throttle, Step = 10};
             throttleBar.MarqueeAnimationSpeed = 1;
             Controls.Add(throttleBar);
