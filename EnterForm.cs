@@ -16,17 +16,15 @@ namespace FlyMore
 
         public EnterForm(World world)
         {
+            
+            BackgroundImage = Image.FromFile("../../images/EnterBack.jpg");
             DoubleBuffered = true;
             InitializeComponent();
             var modelButton = CreateModelButton(new Point(50,50));
             Controls.Add(modelButton);
 
-            var elemCount = new TextBox();
-            elemCount.Text = "10";
-            elemCount.Location = new Point(200,100);
-            var text = new Label();
-            text.Text = "Elements Count";
-            text.Location = new Point(50,100);
+            var elemCount = new TextBox {Text = "10", Location = new Point(200, 100)};
+            var text = new Label {Text = "Elements Count", Location = new Point(50, 100)};
             Controls.Add(elemCount);
             Controls.Add(text);
 
@@ -43,7 +41,8 @@ namespace FlyMore
             FormClosed += (s, a) =>
             {
                 var rnd = new Random();
-                world.Load(Enumerable.Range(1, int.Parse(elemCount.Text.Trim())).Select(x => rnd.Next(2)<1? Gate.GeneateGate(x * 250):(ITrack)Dive.GeneateDive(x*250))
+                elemCount.Text = int.TryParse(elemCount.Text, out _) ? elemCount.Text :10.ToString();
+                world.Load(Enumerable.Range(1, int.Parse(elemCount.Text.Trim())).Select(x => rnd.Next(2)<1? Gate.GeneateGate(x * 300+500):(ITrack)Dive.GeneateDive(x*300+500))
                     .ToArray());
                 Drone.Image = Image.FromFile("../../images/Drone" + ImageCounter + ".png");
             };
@@ -52,7 +51,9 @@ namespace FlyMore
 
         private void Painting(object sender, PaintEventArgs e)
         {
-            e.Graphics.DrawImage(Image.FromFile("../../images/Drone"+ImageCounter+".png"),200,50 );
+            var bitmap = new Bitmap("../../images/Drone" + ImageCounter + ".png");
+            bitmap.MakeTransparent();
+            e.Graphics.DrawImage(bitmap,200,50 );
         }
 
         private static Button CreateModelButton(Point point)

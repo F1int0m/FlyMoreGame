@@ -2,90 +2,83 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using NUnit.Framework.Internal;
 
 namespace FlyMore
 {
     public class World
     {
         public Drone drone;
-        public List<ITrack> Elements { get; set; }
-        private Vector Gravity { get; set; } = new Vector(0,1);
+        public IReadOnlyCollection<ITrack> Elements => ElementsList.AsReadOnly();
+
+        private  List<ITrack> ElementsList { get; set; }
+        private Vector Gravity { get; } = new Vector(0,1);
 
         private Point PreviousPoint;
-
         public bool IsWin { get; private set; } = false;
-
         public int Score { private set; get; } = 0;
+
 
         public World()
         {
-            drone = new Drone();
-            Elements = new List<ITrack>();
+            drone = new Drone(new Vector(500,700),Vector.Zero, Math.PI/2,0 );
+            ElementsList = new List<ITrack>();
         }
 
         public void Load(params ITrack[] traсks)
         {
-            Elements = traсks.OrderBy(x=>x.LeftSide).ToList();
+            ElementsList = traсks.OrderBy(x=>x.LeftSide).ToList();
         }
 
 
-        public void Update(double dAngle ,double dThrottle, Size ClienSize, double dt)
+        public void Update(double angle ,double dThrottle, Size ClienSize, double dt)
         {
             PreviousPoint = new Point((int)Math.Round(drone.Position.X), (int)Math.Round(drone.Position.Y) );
             drone.Throttle += dThrottle;
-            drone = MoveDrone(drone, dAngle, ClienSize, dt);
-            MoveWorld(ClienSize);
+            drone = MoveDrone(drone, angle, ClienSize, dt);
             Check();
+            MoveWorld(ClienSize);
         }
 
        
         private void MoveWorld(Size size)
         {
-
             var delta = size.Width / 4;
             var move1 = (int)drone.Position.X - size.Width / 2;
-            var move = move1 > 0 ? 10 : -10;
-            if (Math.Abs(move1)>delta)
+            var move = move1 > 0 ? 5 : -5;
+            if (Math.Abs(move1) <= delta) return;
+            ElementsList = ElementsList.Select(x =>
             {
-                Elements = Elements.Select(x =>
-                {
-                    x.CheckZone = new Rectangle(x.CheckZone.X - move, x.CheckZone.Y, x.CheckZone.Width,
-                        x.CheckZone.Height);
-                    x.EnterZone = new Rectangle(x.EnterZone.X - move, x.EnterZone.Y, x.EnterZone.Width,
-                        x.EnterZone.Height);
+                x.CheckZone = new Rectangle(x.CheckZone.X - move, x.CheckZone.Y, x.CheckZone.Width,
+                    x.CheckZone.Height);
+                x.EnterZone = new Rectangle(x.EnterZone.X - move, x.EnterZone.Y, x.EnterZone.Width,
+                    x.EnterZone.Height);
 
-                    x.TrackPart = x.TrackPart.Select(s => new Rectangle(s.X - move, s.Y, s.Width, s.Height)).ToArray();
-                    return x;
+                x.TrackPart = x.TrackPart.Select(s => new Rectangle(s.X - move, s.Y, s.Width, s.Height)).ToArray();
+                return x;
 
-                }).ToList();
-
-                drone = new Drone(new Vector(drone.Position.X - move, drone.Position.Y), drone.Velocity, drone.Angle,drone.Throttle);
-            }
+            }).ToList();
+            drone = new Drone(new Vector(drone.Position.X - move, drone.Position.Y), drone.Velocity, drone.Angle,drone.Throttle);
         }
 
         private void Check()
         {
             var curPos = new Point((int)Math.Round(drone.Position.X), (int)Math.Round(drone.Position.Y));
             var checkPos = new Rectangle(curPos.X, curPos.Y-drone.Heigth, drone.Width, drone.Heigth);
-            if (!Elements.Any())
+            if (!ElementsList.Any())
             {
                 IsWin = true;
                 return;
             }           
-            if (Elements.First().CheckZone.Contains(curPos))
+            if (ElementsList.First().CheckZone.Contains(curPos))
             {
-                if (Elements.First().EnterZone.Contains(PreviousPoint))
+                if (ElementsList.First().EnterZone.Contains(PreviousPoint))
                 {
-                    Elements.RemoveAt(0);
+                    ElementsList.RemoveAt(0);
                     Score++;
                 }
             }
 
-            if (Elements.SelectMany(x=>x.TrackPart).Any(x => x.IntersectsWith(checkPos)))
+            if (ElementsList.SelectMany(x=>x.TrackPart).Any(x => x.IntersectsWith(checkPos)))
             {
                 drone = new Drone(new Vector(PreviousPoint.X,PreviousPoint.Y), drone.Velocity*(-0.8),drone.Angle,drone.Throttle);
             }
@@ -93,7 +86,7 @@ namespace FlyMore
 
         }
 
-        private readonly double maxVelocity = 350;
+        private readonly double maxVelocity = 250;
         private readonly double mass =0.9;
         private readonly double mainForceScale = 0.0025;
 
@@ -104,23 +97,19 @@ namespace FlyMore
             return thrust.Normalize()*throttle + Gravity* mainForceScale;
         }
 
-        public Drone MoveDrone(Drone drone, double turn, Size spaceSize, double dt)
+        private Drone MoveDrone(Drone tDrone, double angle, Size spaceSize, double dt)
         {
-            var dir = turn;
-            var velocity = drone.Velocity+CalcForces(this.drone.Throttle)*dt/mass;
+            var velocity = tDrone.Velocity+CalcForces(this.drone.Throttle)*dt/mass;
             if (velocity.Length > maxVelocity) velocity = velocity.Normalize() * maxVelocity;
-            var location = drone.Position + velocity * dt;
+            var location = tDrone.Position + velocity * dt;
             if (location.X < 0) velocity = new Vector(Math.Max(0, velocity.X), velocity.Y);
             if (location.X > spaceSize.Width) velocity = new Vector(Math.Min(0, velocity.X), velocity.Y);
             if (location.Y < 0) velocity = new Vector(velocity.X, Math.Max(0, velocity.Y));
             if (location.Y > spaceSize.Height) velocity = new Vector(velocity.X, Math.Min(0, velocity.Y));
-            return new Drone(location.BoundTo(spaceSize),velocity,dir,drone.Throttle);
+            
+            return new Drone(location.BoundTo(spaceSize),velocity, angle, tDrone.Throttle);
         }
-
-        private Point CalcForwardPoint(Drone drone)
-        {
-            return  new Point((int)Math.Round(drone.Position.X) + this.drone.Width, (int)Math.Round(drone.Position.Y) - drone.Heigth / 2);
-        }
+        
 
     }
 }

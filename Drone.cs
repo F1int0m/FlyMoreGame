@@ -28,9 +28,7 @@ namespace FlyMore
             Angle = angle;
         }
 
-
-        public static string ImageName { get; set; } = "Drone0.png";
-        public static Image Image;// = Image.FromFile("../../images/"+ImageName);
+        public static Image Image = new Bitmap(100,50);
         public double Angle { get; set; }
         public Vector Position {  get; set; }
         public Vector Velocity { get; set; }

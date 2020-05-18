@@ -19,8 +19,8 @@ namespace FlyMore
             TrackPart = trackPart;
         }
 
-        public static Gate GeneateGate(int x) => new Gate(new Rectangle(x+20, 100, 20, 100), new Rectangle(x, 100, 20, 100),
-            new[] {new Rectangle(x, 200, 40, 40), new Rectangle(x, 60, 40, 40)});
+        public static Gate GeneateGate(int x) => new Gate(new Rectangle(x+20, 480, 20, 100), new Rectangle(x, 480, 20, 100),
+            new[] {new Rectangle(x, 580, 40, 40), new Rectangle(x, 440, 40, 40)});
         public Rectangle CheckZone { get; set; }
         public Rectangle EnterZone { get; set; }
         public Rectangle[] TrackPart { get; set; }

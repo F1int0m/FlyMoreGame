@@ -19,8 +19,8 @@ namespace FlyMore
             TrackPart = trackPart;
         }
 
-        public static Dive GeneateDive(int x) => new Dive(new Rectangle(x, 100, 150, 20), new Rectangle(x, 80, 150, 20),
-            new[] {new Rectangle(x, 120, 40, 80)});
+        public static Dive GeneateDive(int x) => new Dive(new Rectangle(x, 520, 150, 20), new Rectangle(x, 500, 150, 20),
+            new[] {new Rectangle(x, 540, 40, 80)});
         public Rectangle CheckZone { get; set; }
         public Rectangle EnterZone { get; set; }
         public Rectangle[] TrackPart { get; set; }

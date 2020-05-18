@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,20 +23,8 @@ namespace FlyMore.Tests
             var drone = new Drone();
             drone.Throttle += d;
             Assert.IsTrue(drone.Throttle==expected);
-        }       
-
+        }
 
         
-        [TestCase(Math.PI/2,2,-Math.PI/2)]
-        [TestCase(0,0,Math.PI/2)]
-        [TestCase(-Math.PI/2,2,-Math.PI/2)]
-        [TestCase(Math.PI,16,Math.PI/2)]
-
-
-        [Test]
-        public void TestOverAngle(double angleOnIneration,int count, double expected)
-        {
-            
-        }
     }
 }
