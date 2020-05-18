@@ -9,14 +9,12 @@ namespace FlyMore
     {
         public Drone drone;
         public IReadOnlyCollection<ITrack> Elements => ElementsList.AsReadOnly();
-
         private  List<ITrack> ElementsList { get; set; }
         private Vector Gravity { get; } = new Vector(0,1);
 
         private Point PreviousPoint;
         public bool IsWin { get; private set; } = false;
         public int Score { private set; get; } = 0;
-
 
         public World()
         {
@@ -30,22 +28,22 @@ namespace FlyMore
         }
 
 
-        public void Update(double angle ,double dThrottle, Size ClienSize, double dt)
+        public void Update(double angle ,double dThrottle, Size clienSize, double dt)
         {
             PreviousPoint = new Point((int)Math.Round(drone.Position.X), (int)Math.Round(drone.Position.Y) );
             drone.Throttle += dThrottle;
-            drone = MoveDrone(drone, angle, ClienSize, dt);
+            drone = MoveDrone(drone, angle, clienSize, dt);
             Check();
-            MoveWorld(ClienSize);
+            MoveWorld(clienSize);
         }
 
        
         private void MoveWorld(Size size)
         {
             var delta = size.Width / 4;
-            var move1 = (int)drone.Position.X - size.Width / 2+200;
-            var move = move1 > 0 ? 5 : -5;
-            if (Math.Abs(move1) <= delta) return;
+            var dif = (int)drone.Position.X - size.Width / 2+200;
+            var move = dif > 0 ? 5 : -5;
+            if (Math.Abs(dif) <= delta) return;
             ElementsList = ElementsList.Select(x =>
             {
                 x.CheckZone = new Rectangle(x.CheckZone.X - move, x.CheckZone.Y, x.CheckZone.Width,
@@ -109,7 +107,5 @@ namespace FlyMore
             
             return new Drone(location.BoundTo(spaceSize),velocity, angle, tDrone.Throttle);
         }
-        
-
     }
 }

@@ -17,7 +17,5 @@ namespace FlyMore
             Application.Run(new EnterForm(configWorld));
             Application.Run(new GameForm(configWorld));
         }
-
-        
     }
 }

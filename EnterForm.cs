@@ -20,6 +20,7 @@ namespace FlyMore
             BackgroundImage = Image.FromFile("../../images/EnterBack.jpg");
             DoubleBuffered = true;
             InitializeComponent();
+
             var modelButton = CreateModelButton(new Point(50,50));
             Controls.Add(modelButton);
 
@@ -32,12 +33,12 @@ namespace FlyMore
             okBut.Click += (s, a) => { this.Close(); };
             Controls.Add(okBut);
 
-
-
             Paint += Painting;
+
             var c = new Timer {Interval = 10};
             c.Tick += (s, a) => Invalidate();
             c.Start();
+
             FormClosed += (s, a) =>
             {
                 var rnd = new Random();
