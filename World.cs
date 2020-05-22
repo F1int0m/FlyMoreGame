@@ -58,6 +58,15 @@ namespace FlyMore
             drone = new Drone(new Vector(drone.Position.X - move, drone.Position.Y), drone.Velocity, drone.Angle,drone.Throttle);
         }
 
+        public static double GetAngle(Point mouse, Drone drone)
+        {
+
+            var resVector = new Vector(mouse.X - drone.Position.X, mouse.Y - drone.Position.Y);
+            var temp = Math.PI - Math.Acos(resVector.X / resVector.Length);
+
+            return mouse.Y > drone.Position.Y ? Math.PI * 2 - temp : temp;
+        }
+
         private void Check()
         {
             var curPos = new Point((int)Math.Round(drone.Position.X), (int)Math.Round(drone.Position.Y));

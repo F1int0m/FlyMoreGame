@@ -20,7 +20,7 @@ namespace FlyMore
         public GameForm(World inputWorld)
         {
             world = inputWorld;
-            BackgroundImage = Image.FromFile("../../images/GameBack.jpg");
+            BackgroundImage = EnterForm.GetImageFromPath("../../images/GameBack.jpg");
             var throttleBar = new ProgressBar {Maximum = 100, Minimum = 0, Value = (int) world.drone.Throttle, Step = 10};
             throttleBar.MarqueeAnimationSpeed = 1;
             Controls.Add(throttleBar);
@@ -32,16 +32,11 @@ namespace FlyMore
 
             timer.Tick += (sender, args) =>
             {
-                world.Update(GetAngle(world.drone.Position), dthr, ClientSize, dt);
+                world.Update(World.GetAngle(PointToClient(Cursor.Position),world.drone), dthr, ClientSize, dt);
                 dthr = 0;
                 Invalidate();
                 throttleBar.Value = (int) world.drone.Throttle;
-            };
-
-            ClientSizeChanged += (s, a) =>
-            {
-                world.Load(CalcY(world.Elements, ClientSize));
-            };
+            };            
 
             MouseWheel += (s, a) => dthr += a.Delta > 0 ? 10 : -10;
 
@@ -78,33 +73,9 @@ namespace FlyMore
                 }
             }
         }
+        
 
-        public double GetAngle(Vector  vect)
-        {
-            var mouse = PointToClient(Cursor.Position);
-            var resVector = new Vector(mouse.X - vect.X, mouse.Y - vect.Y);
-            var temp = Math.PI - Math.Acos(resVector.X / resVector.Length);
-            
-            return mouse.Y > vect.Y ? Math.PI * 2 - temp : temp;
-        }
-
-        private ITrack[] CalcY(IEnumerable<ITrack> items, Size size)
-        {
-            return items.Select(x =>
-            {
-                var check = x.CheckZone;
-                var enter = x.EnterZone;
-                var eHeight = x.Height;
-
-                x.CheckZone = new Rectangle(check.X, size.Height - dy - eHeight, check.Width, check.Height);
-                x.EnterZone = new Rectangle(enter.X, size.Height - dy - eHeight, enter.Width, enter.Height);
-                x.TrackPart = 
-                    x.TrackPart.Select(z => new Rectangle(z.X, size.Height - eHeight - dy , z.Width, z.Height))
-                    .ToArray();
-
-                return x;
-            }).ToArray();
-        }
+        
 
         public static Image RotateImage(Bitmap img, double rotationAngle)
         {
