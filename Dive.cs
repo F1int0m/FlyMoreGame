@@ -11,7 +11,11 @@ namespace FlyMore
 {
     class Dive : ITrack
     {
-        
+        private const int DefaultY = 500;
+        private const int zoneHeight = 20;
+        private const int zonewidth = 150;
+
+
         public Dive(Rectangle checkZone, Rectangle enterZone, Rectangle[] trackPart)
         {
             CheckZone = checkZone;
@@ -19,8 +23,8 @@ namespace FlyMore
             TrackPart = trackPart;
         }
 
-        public static Dive GeneateDive(int x) => new Dive(new Rectangle(x, 520, 150, 20), new Rectangle(x, 500, 150, 20),
-            new[] {new Rectangle(x, 540, 40, 80)});
+        public static Dive GeneateDive(int x) => new Dive(new Rectangle(x, DefaultY + 2*zoneHeight, zonewidth, zoneHeight), new Rectangle(x, DefaultY+zoneHeight, zonewidth, zoneHeight),
+            new[] {new Rectangle(x, DefaultY + 3*zoneHeight, zoneHeight*2, zoneHeight*4) });
         public Rectangle CheckZone { get; set; }
         public Rectangle EnterZone { get; set; }
         public Rectangle[] TrackPart { get; set; }
@@ -44,8 +48,6 @@ namespace FlyMore
         {
             return rects.Min();
         }
-
-
 
     }
 }

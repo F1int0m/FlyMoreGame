@@ -37,7 +37,7 @@ namespace FlyMore.Tests
             var size = new Size(800, 800);
             var testDrone = new Drone(Vector.Zero, Vector.Zero, Math.PI, 0);
             var w = WorldInit(size, testDrone);
-            w.drone = new Drone(new Vector(125, 500), new Vector(1, 0), 0, 40);
+            w.drone = new Drone(new Vector(28, 500), new Vector(1, 0), 0, 40);
             w.Update(0, 0, size, 10);
             w.Update(0, 0, size, 10);
             Assert.IsTrue(w.Score == 1);

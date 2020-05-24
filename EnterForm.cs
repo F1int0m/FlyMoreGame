@@ -17,7 +17,7 @@ namespace FlyMore
         public EnterForm(World world)
         {
             
-            BackgroundImage = Image.FromFile("../../images/EnterBack.jpg");
+            BackgroundImage = GetImageFromPath("../../images/EnterBack.jpg");
             DoubleBuffered = true;
             InitializeComponent();
 
@@ -41,18 +41,19 @@ namespace FlyMore
 
             FormClosed += (s, a) =>
             {
+
                 var rnd = new Random();
                 elemCount.Text = int.TryParse(elemCount.Text, out _) ? elemCount.Text :10.ToString();
                 world.Load(Enumerable.Range(1, int.Parse(elemCount.Text.Trim())).Select(x => rnd.Next(2)<1? Gate.GeneateGate(x * 300+500):(ITrack)Dive.GeneateDive(x*300+500))
                     .ToArray());
-                Drone.Image = Image.FromFile("../../images/Drone" + ImageCounter + ".png");
+                Drone.Image = GetImageFromPath("../../images/Drone" + ImageCounter + ".png");
             };
 
         }
 
         private void Painting(object sender, PaintEventArgs e)
         {
-            var bitmap = new Bitmap("../../images/Drone" + ImageCounter + ".png");
+            var bitmap = GetImageFromPath("../../images/Drone" + ImageCounter + ".png");
             bitmap.MakeTransparent();
             e.Graphics.DrawImage(bitmap,200,50 );
         }
@@ -67,6 +68,22 @@ namespace FlyMore
                     ImageCounter = 0;
             };
             return modelButton;
+        }
+
+        public static Bitmap GetImageFromPath(string path)
+        {
+            try 
+            {
+                return new Bitmap(path);
+            }
+            catch 
+            {
+                MessageBox.Show("Can't load image from " +path);
+                return new Bitmap(100, 100);
+            }
+
+
+
         }
     }
 }

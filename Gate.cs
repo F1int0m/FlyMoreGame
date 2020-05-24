@@ -11,7 +11,9 @@ namespace FlyMore
 {
     class Gate : ITrack
     {
-        
+        private const int DefaultY = 480;
+        private const int zoneHeight = 100;
+        private const int zonewidth = 20;
         public Gate(Rectangle checkZone, Rectangle enterZone, Rectangle[] trackPart)
         {
             CheckZone = checkZone;
@@ -19,8 +21,8 @@ namespace FlyMore
             TrackPart = trackPart;
         }
 
-        public static Gate GeneateGate(int x) => new Gate(new Rectangle(x+20, 480, 20, 100), new Rectangle(x, 480, 20, 100),
-            new[] {new Rectangle(x, 580, 40, 40), new Rectangle(x, 440, 40, 40)});
+        public static Gate GeneateGate(int x) => new Gate(new Rectangle(x+20, DefaultY, zonewidth, zoneHeight), new Rectangle(x, DefaultY, zonewidth, zoneHeight),
+            new[] {new Rectangle(x, DefaultY+100, 40, 40), new Rectangle(x, DefaultY-40, 40, 40)});
         public Rectangle CheckZone { get; set; }
         public Rectangle EnterZone { get; set; }
         public Rectangle[] TrackPart { get; set; }
